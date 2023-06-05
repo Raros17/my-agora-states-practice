@@ -3,8 +3,7 @@ name: client
 on:
   push:
     branches:
-      - main
-      - 'myRepo reference/**'
+      - reference
 jobs:
   build:
     runs-on: ubuntu-20.04
@@ -19,15 +18,15 @@ jobs:
         working-directory: ./my-agora-states-client
       - name: SHOW AWS CLI VERSION
         run: |
-          <?>
+          aws --version
       - name: Sync Bucket
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_EC2_METADATA_DISABLED: true
         run: |
-          aws s3 <?> \
+          aws s3 sync \
             --region ap-northeast-2 \
-            build s3://<?> \
+            build s3://fe-62-raros17-s3 \
             --delete
-        working-directory: <?>
+        working-directory: ./my-agora-states-client
